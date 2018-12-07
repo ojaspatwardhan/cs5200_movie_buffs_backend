@@ -6,6 +6,48 @@ const User = require("../models/user/user.model.server");
 
 const router = express.Router();
 
+findUserByUsername = (req,res) => {
+    console.log("In find user by username");
+    console.log(req.params.username);
+    let name = req.params.username;
+
+    User.findOne({username: name}).then(user => {
+        if(!user) {
+            return res.status(401).json({
+                message: "User does not exist"
+            });
+        }
+       res.send(user);
+    });
+};
+
+updateUser = (req,res) => {
+    bcrypt.hash(req.body.password, 10).then(hash => {
+        User.findByIdAndUpdate(req.body.id, {
+        $set: {username: req.body.username, password: hash, first_name: req.body.firstName, last_name: req.body.lastName, email: req.body.email}
+        }, {
+        new: true
+        }, function(err) {
+        if(err) {
+            throw err;
+        }
+        else {
+            console.log("update working");
+        }
+    })});
+};
+
+deleteUser = (req,res) => {
+    User.findByIdAndRemove(req.body.id, (err) => {
+        if(err) {
+          throw err;
+        }
+        else {
+          console.log("Deleted" + "user " + id);
+        }
+      });
+};
+
 router.post("/signup", (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {
         const user = new User({
@@ -14,15 +56,13 @@ router.post("/signup", (req, res, next) => {
         });
         User.create(user).then(result => {
             const token = jwt.sign({
-                email: result.email,
+                username: result.username,
                 userId: result._id
             }, "geralt the wolf witcher", {expiresIn: "1hr"});
     
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
-                userId: result._id,
-                username: result.username
             })
         }).catch(err => {
             console.log("In error");
@@ -50,14 +90,13 @@ router.post("/login", (req,res,next) => {
             });
         }
         const token = jwt.sign({
-            email: retrievedUser.email,
-            userId: retrievedUser._id
+            userId: result._id,
+            username: result.username
         }, "geralt the wolf witcher", {expiresIn: "1hr"});
 
         res.status(200).json({
             token: token,
             expiresIn: 3600,
-            userId: retrievedUser._id
         })
         .catch( err => {
             return res.status(401).json({
@@ -67,21 +106,10 @@ router.post("/login", (req,res,next) => {
     });
 });
 
-router.get("/api/profile/:username", findUserByUsername);
+router.get("/profile/:username", findUserByUsername);
 
-findUserByUsername = (req,res) => {
-    console.log("In find user by username");
-    console.log(req.params.username);
-    let name = req.params.username;
+router.put("/:id", updateUser);
 
-    User.findOne({username: name}).then(user => {
-        if(!user) {
-            return res.status(401).json({
-                message: "User does not exist"
-            });
-        }
-        return user;
-    });
-};
+router.delete("/:id", deleteUser);
 
 module.exports = router;
