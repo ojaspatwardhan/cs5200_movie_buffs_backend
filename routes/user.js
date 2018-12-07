@@ -21,7 +21,8 @@ router.post("/signup", (req, res, next) => {
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
-                userId: result._id
+                userId: result._id,
+                username: result.username
             })
         }).catch(err => {
             console.log("In error");
@@ -65,5 +66,22 @@ router.post("/login", (req,res,next) => {
         });
     });
 });
+
+router.get("/api/profile/:username", findUserByUsername);
+
+findUserByUsername = (req,res) => {
+    console.log("In find user by username");
+    console.log(req.params.username);
+    let name = req.params.username;
+
+    User.findOne({username: name}).then(user => {
+        if(!user) {
+            return res.status(401).json({
+                message: "User does not exist"
+            });
+        }
+        return user;
+    });
+};
 
 module.exports = router;
