@@ -21,7 +21,8 @@ router.post("/signup", (req, res, next) => {
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
-                userId: result._id
+                userId: result._id,
+                username: result.username
             })
         }).catch(err => {
             console.log("In error");
