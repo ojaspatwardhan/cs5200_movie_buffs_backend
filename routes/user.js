@@ -11,14 +11,12 @@ router.post("/signup", (req, res, next) => {
         const user = new User({
             username: req.body.username,
             password: hash
-            // email: req.body.email,
-            // firstName: req.body.first_name,
-            // lastName: req.body.last_name
         });
         User.create(user).then(result => {
           console.log("inside user.save");
             res.status(201).json({message: "Created user" + user.username});
         }).catch(err => {
+            console.log("In error");
             res.status(500).json({error:err });
         });
     });
