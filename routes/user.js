@@ -17,7 +17,7 @@ router.post("/signup", (req, res, next) => {
             // lastName: req.body.last_name
         });
         user.save().then(result => {
-            res.status(201).json({message: "Created user" + user.username});
+            res.status(201).json({message: "Created user " + user.username});
         }).catch(err => {
             res.status(500).json({error:err });
         });
