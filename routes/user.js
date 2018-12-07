@@ -67,21 +67,19 @@ router.post("/login", (req,res,next) => {
     });
 });
 
-router.get("/api/profile/:username", findUserByUsername);
-
 findUserByUsername = (req,res) => {
-    console.log("In find user by username");
-    console.log(req.params.username);
     let name = req.params.username;
 
-    User.findOne({username: name}).then(user => {
+    User.findOne({username: name}).then((user) => {
         if(!user) {
             return res.status(401).json({
                 message: "User does not exist"
             });
         }
-        return user;
+        res.send(user);
     });
 };
+
+router.get("/profile/:username", findUserByUsername);
 
 module.exports = router;
