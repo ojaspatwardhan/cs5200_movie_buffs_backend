@@ -59,7 +59,7 @@ router.post("/signup", (req, res, next) => {
                 username: result.username,
                 userId: result._id
             }, "geralt the wolf witcher", {expiresIn: "1hr"});
-    
+
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
