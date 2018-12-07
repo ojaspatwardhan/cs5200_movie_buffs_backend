@@ -7,18 +7,26 @@ const User = require("../models/user/user.model.server");
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
-  console.log(req.body);
     bcrypt.hash(req.body.password, 10).then(hash => {
         const user = new User({
             username: req.body.username,
             password: hash,
-            // email: req.body.email,
-            // firstName: req.body.first_name,
-            // lastName: req.body.last_name
         });
-        user.save().then(result => {
-            res.status(201).json({message: "Created user" + user.email});
+
+        User.create(user).then(result => {
+            const token = jwt.sign({
+                username: result.username,
+                userId: result._id
+            }, "geralt the wolf witcher", {expiresIn: "1hr"});
+            console.log(token);
+            return res.status(200).json({
+                token: token,
+                expiresIn: 3600,
+                userId: result._id
+            });
+            // res.status(201).json({message: "Created user" + user.email});
         }).catch(err => {
+            console.log("In error");
             res.status(500).json({error:err });
         });
     });
