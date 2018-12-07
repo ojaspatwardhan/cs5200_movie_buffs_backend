@@ -14,14 +14,14 @@ router.post("/signup", (req, res, next) => {
         });
         User.create(user).then(result => {
             const token = jwt.sign({
-                email: retrievedUser.email,
-                userId: retrievedUser._id
+                email: result.email,
+                userId: result._id
             }, "geralt the wolf witcher", {expiresIn: "1hr"});
-    
+
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
-                userId: retrievedUser._id
+                userId: result._id
             })
         }).catch(err => {
             console.log("In error");
