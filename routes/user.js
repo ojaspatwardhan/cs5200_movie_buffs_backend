@@ -24,6 +24,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/login", (req,res,next) => {
+  console.log("inside login");
     let retrievedUser;
     User.findOne({email: req.body.email})
     .then(user => {
