@@ -17,6 +17,6 @@ mongoose.connect("mongodb://localhost/recipe-project")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use("/api/user",userRoutes);
+app.use("/api/user", userRoutes);
 
 module.exports = app;

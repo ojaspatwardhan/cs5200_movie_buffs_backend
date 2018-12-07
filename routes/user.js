@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtokens");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user/user.model.server");
 
@@ -24,6 +24,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/login", (req,res,next) => {
+  console.log("inside login");
     let retrievedUser;
     User.findOne({email: req.body.email})
     .then(user => {
