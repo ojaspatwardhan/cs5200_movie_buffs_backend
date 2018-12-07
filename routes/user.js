@@ -63,6 +63,8 @@ router.post("/signup", (req, res, next) => {
             return res.status(200).json({
                 token: token,
                 expiresIn: 3600,
+                username: result.username,
+                userId: result._id
             })
         }).catch(err => {
             console.log("In error");
@@ -97,6 +99,8 @@ router.post("/login", (req,res,next) => {
         res.status(200).json({
             token: token,
             expiresIn: 3600,
+            username: result.username,
+            userId: result._id
         })
         .catch( err => {
             return res.status(401).json({
