@@ -7,13 +7,14 @@ const User = require("../models/user/user.model.server");
 const router = express.Router();
 
 router.post("/signup", (req, res, next) => {
+  console.log(req.body);
     bcrypt.hash(req.body.password, 10).then(hash => {
         const user = new User({
             username: req.body.username,
             password: hash,
-            email: req.body.email,
-            firstName: req.body.first_name,
-            lastName: req.body.last_name
+            // email: req.body.email,
+            // firstName: req.body.first_name,
+            // lastName: req.body.last_name
         });
         user.save().then(result => {
             res.status(201).json({message: "Created user" + user.username});
@@ -24,7 +25,6 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/login", (req,res,next) => {
-  console.log("inside login");
     let retrievedUser;
     User.findOne({email: req.body.email})
     .then(user => {
