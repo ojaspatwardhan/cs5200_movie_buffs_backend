@@ -112,6 +112,4 @@ router.put("/:id", updateUser);
 
 router.delete("/:id", deleteUser);
 
-router.get("/profile/:username", findUserByUsername);
-
 module.exports = router;
