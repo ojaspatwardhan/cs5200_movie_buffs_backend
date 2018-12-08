@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
+const recipeRoutes = require('./routes/recipe');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api/recipe", recipeRoutes);
 
 app.listen(process.env.PORT || 4000, () => console.log('Example app listening on port 4000!'))
 module.exports = app;
