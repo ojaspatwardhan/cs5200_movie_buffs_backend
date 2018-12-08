@@ -6,6 +6,44 @@ const User = require("../models/user/user.model.server");
 
 const router = express.Router();
 
+
+findAllUsers = (req, res) => {
+  User.find().then((users) => {
+    res.send(users);
+  });
+}
+
+createUserByAdmin = (req, res) => {
+  bcrypt.hash(req.body.password, 10).then(hash => {
+      const user = new User({
+          username: req.body.username,
+          password: hash,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email,
+          address_1: req.body.address_1,
+          role: req.body.role
+      });
+      User.create(user).then(result => {
+
+          const token = jwt.sign({
+              username: result.username,
+              userId: result._id
+          }, "geralt the wolf witcher", {expiresIn: "1hr"});
+
+          res.status(200).json({
+              token: token,
+              expiresIn: 3600,
+              username: result.username,
+              userId: result._id
+          });
+      }).catch(err => {
+          console.log("In error");
+          res.status(500).json({error:err });
+      });
+  });
+};
+
 findUserByUsername = (req,res) => {
     let name = req.params.username;
 
@@ -21,9 +59,8 @@ findUserByUsername = (req,res) => {
 
 updateUser = (req, res) => {
     var user = req.body;
-    console.log(user.first_name + " " + "inside update user");
     User.findByIdAndUpdate(user._id, {
-    $set: {username: user.username, password: user.password, first_name: user.first_name, last_name: user.last_name, email: user.email, address_1: user.address_1, address_2: user.address_2, city: user.city, state: user.state, zip: user.zip}
+    $set: {username: user.username, password: user.password, first_name: user.first_name, last_name: user.last_name, email: user.email, address_1: user.address_1, address_2: user.address_2, city: user.city, state: user.state, zip: user.zip, role: user.role}
     }, {
     new: true
     }, function(err) {
@@ -38,14 +75,23 @@ updateUser = (req, res) => {
 };
 
 deleteUser = (req,res) => {
-    User.findByIdAndRemove(req.body.id, (err) => {
+  var id = req.params.id;
+    User.findByIdAndRemove(req.params.id, (err) => {
         if(err) {
           throw err;
         }
         else {
-          console.log("Deleted" + "user " + id);
+          res.send("deleted");
         }
       });
+};
+
+findUserById = (req, res) => {
+  let id = req.params.id;
+
+  User.findById(id).then((user) => {
+    res.send(user);
+  });
 };
 
 router.post("/signup", (req, res, next) => {
@@ -110,6 +156,12 @@ router.post("/login", (req, res, next) => {
         });
     });
 });
+
+router.post("/admin", createUserByAdmin);
+
+router.get("/id/:id", findUserById);
+
+router.get("/users", findAllUsers);
 
 router.get("/profile/:username", findUserByUsername);
 
