@@ -11,7 +11,8 @@ const userSchema = mongoose.Schema({
     address_2: {type: String},
     city: {type: String},
     state: {type: String},
-    zip: {type: Number}
+    zip: {type: Number},
+    role: {type: String}
 }, {collection: "users"});
 
 userSchema.plugin(uniqueValidator);
