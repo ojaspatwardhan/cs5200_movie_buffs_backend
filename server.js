@@ -7,7 +7,15 @@ const recipeRoutes = require('./routes/recipe');
 
 const app = express();
 
-mongoose.connect("mongodb://localhost/recipe-project")
+//Backend Local url
+localUrl = "mongodb://localhost/recipe-project";
+//Backend Heroku url
+herokuUrl = "mongodb://heroku_v4z5qmj9:eebijl3lttnpp562p91ee55p4k@ds129454.mlab.com:29454/heroku_v4z5qmj9";
+
+//Front end local url
+frontEndLocal = "http://localhost:4200";
+
+mongoose.connect(localUrl)
 .then(() => {
     console.log("Connected to database");
 })
