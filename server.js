@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+var session = require('express-session');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
@@ -18,6 +19,12 @@ frontEndLocal = "http://localhost:4200";
 
 //Frontend heroku url
 frontEndHeroku = "https://dbms-recipe-app-frontend.herokuapp.com";
+
+app.use(session({
+ resave: false,
+ saveUninitialized: true,
+ secret: 'any string'
+}));
 
 mongoose.connect("mongodb://localhost/recipe-project")
 .then(() => {
