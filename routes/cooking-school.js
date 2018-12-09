@@ -79,7 +79,7 @@ enrollUserInCookingSchool = (req, res) => {
     console.log("In enroll user");
     console.log(cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool._id, { $inc: {noOfSeats: -1},
-    $push: {enrolledUser: cookingSchool.enrolledUser} 
+    $push: {enrolledUser: cookingSchool.enrolledUser}
     }, {
     new: true
     }, function(err) {
@@ -97,10 +97,10 @@ enrollUserInCookingSchool = (req, res) => {
 router.post("", (req, res, next) => {
     console.log(req.body);
         const cookingSchool = new CookingSchool({
-            name: req.body.name, 
+            name: req.body.name,
             image: req.body.image,
-            noOfSeats: req.body.noOfSeats, 
-            duration: req.body.duration, 
+            noOfSeats: req.body.noOfSeats,
+            duration: req.body.duration,
             chefId: req.body.chefId
         });
         CookingSchool.create(cookingSchool).then(result => {

@@ -117,7 +117,7 @@ router.post("/signup", (req, res, next) => {
                 expiresIn: 3600,
                 username: result.username,
                 userId: result._id,
-                role: retrievedUser.role
+                role: result.role
             });
         }).catch(err => {
             console.log("In error");
