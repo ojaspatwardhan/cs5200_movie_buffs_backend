@@ -15,10 +15,33 @@ findRecipes = (req,res) => {
     });
 };
 
+findRecipesForUser = (req,res) => {
+    Recipe.find({creator: req.params.id}).then(recipes => {
+        console.log(recipes);
+        if(!recipes) {
+            return res.status(401).json({
+                message: "Recipes do not exist"
+            });
+        }
+       res.send(recipes);
+    });
+};
+
+findRecipeById = (req,res) => {
+    console.log(req.params.id);
+    Recipe.findById(req.params.id).then((recipe) => {
+        if(!recipe) {
+            return res.status(401).json({
+                message: "Recipes do not exist"
+            });
+        }
+       res.send(recipe);
+    });
+};
+
 updateRecipe = (req, res) => {
     var recipe = req.body;
-    console.log(user.first_name + " " + "inside update user");
-    Recipe.findByIdAndUpdate(user._id, {
+    Recipe.findByIdAndUpdate(recipe._id, {
     $set: {title: recipe.title, image: recipe.image, instructions: recipe.instructions, readyInMinutes: recipe.readyInMinutes, servings: recipe.servings, extendedIngredients: recipe.extendedIngredients, creator: recipe.creator}
     }, {
     new: true
@@ -45,6 +68,7 @@ deleteRecipe = (req,res) => {
 };
 
 router.post("", (req, res, next) => {
+    console.log(req.body);
         const recipe = new Recipe({
             title: req.body.title,
             image: req.body.image,
@@ -52,7 +76,7 @@ router.post("", (req, res, next) => {
             readyInMinutes: req.body.readyInMinutes,
             servings: req.body.servings,
             extendedIngredients: req.body.extendedIngredients,
-            creator: req.body.userId
+            creator: req.body.creator
         });
         Recipe.create(recipe).then(result => {
 
@@ -65,6 +89,10 @@ router.post("", (req, res, next) => {
 
 
 router.get("/recipes", findRecipes);
+
+router.get("/:id", findRecipesForUser);
+
+router.get("/edit/:id", findRecipeById);
 
 router.put("/:id", updateRecipe);
 
