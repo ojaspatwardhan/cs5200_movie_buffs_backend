@@ -76,8 +76,10 @@ deleteCookingSchool = (req,res) => {
 
 enrollUserInCookingSchool = (req, res) => {
     var cookingSchool = req.body;
-    CookingSchool.findByIdAndUpdate(cookingSchool._id, {
-    $push: {enrolledUser: cookingSchool.enrolledUser}
+    console.log("In enroll user");
+    console.log(cookingSchool);
+    CookingSchool.findByIdAndUpdate(cookingSchool._id, { $inc: {noOfSeats: -1},
+    $push: {enrolledUser: cookingSchool.enrolledUser} 
     }, {
     new: true
     }, function(err) {

@@ -116,7 +116,8 @@ router.post("/signup", (req, res, next) => {
                 token: token,
                 expiresIn: 3600,
                 username: result.username,
-                userId: result._id
+                userId: result._id,
+                role: retrievedUser.role
             });
         }).catch(err => {
             console.log("In error");
@@ -153,7 +154,8 @@ router.post("/login", (req, res, next) => {
             token: token,
             expiresIn: 3600,
             username: retrievedUser.username,
-            userId: retrievedUser._id
+            userId: retrievedUser._id,
+            role: retrievedUser.role
         })
     }).catch(err => {
         return res.status(401).json({
