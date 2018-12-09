@@ -15,6 +15,9 @@ herokuUrl = "mongodb://heroku_v4z5qmj9:eebijl3lttnpp562p91ee55p4k@ds129454.mlab.
 //Front end local url
 frontEndLocal = "http://localhost:4200";
 
+//Frontend heroku url
+frontEndHeroku = "";
+
 mongoose.connect(localUrl)
 .then(() => {
     console.log("Connected to database");
