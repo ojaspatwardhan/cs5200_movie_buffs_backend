@@ -16,7 +16,7 @@ herokuUrl = "mongodb://heroku_v4z5qmj9:eebijl3lttnpp562p91ee55p4k@ds129454.mlab.
 frontEndLocal = "http://localhost:4200";
 
 //Frontend heroku url
-frontEndHeroku = "";
+frontEndHeroku = "https://dbms-recipe-app-frontend.herokuapp.com";
 
 mongoose.connect(localUrl)
 .then(() => {
