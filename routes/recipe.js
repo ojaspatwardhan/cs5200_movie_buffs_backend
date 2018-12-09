@@ -4,6 +4,12 @@ const Recipe = require("../models/recipe/recipe.model.server");
 
 const router = express.Router();
 
+findAllRecipes = (req, res) => {
+  Recipe.find().then((recipes) => {
+    res.send(recipes);
+  });
+}
+
 findRecipes = (req,res) => {
     Recipe.find().then(recipes => {
         if(!recipes) {
@@ -93,6 +99,7 @@ router.post("", (req, res, next) => {
         });
 });
 
+router.get("/recipes/all", findAllRecipes);
 
 router.get("/recipes", findRecipes);
 
