@@ -12,7 +12,10 @@ const userSchema = mongoose.Schema({
     city: {type: String},
     state: {type: String},
     zip: {type: Number},
-    role: {type: String, default: 'user'}
+    role: {type: String, default: 'user'},
+    enrolledSchool: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "CookingSchool"
+    }],
 }, {collection: "users"});
 
 userSchema.plugin(uniqueValidator);
