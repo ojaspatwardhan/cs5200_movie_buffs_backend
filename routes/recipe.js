@@ -57,12 +57,18 @@ updateRecipe = (req, res) => {
 };
 
 deleteRecipe = (req,res) => {
-    Recipe.findByIdAndRemove(req.body.id, (err) => {
-        if(err) {
-          throw err;
+    console.log(req.params.id);
+    Recipe.findByIdAndDelete(req.params.id, (err) => {
+        if(!err) {
+            console.log("Deleted" + "recipe " + req.params.id);
+            res.status(200).json({
+                message: 'deleted succesfully'
+            });
         }
         else {
-          console.log("Deleted" + "recipe " + id);
+         res.status(500).json({
+             message: 'error'
+         });
         }
       });
 };
@@ -96,6 +102,6 @@ router.get("/edit/:id", findRecipeById);
 
 router.put("/:id", updateRecipe);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", deleteRecipe);
 
 module.exports = router;
