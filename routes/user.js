@@ -102,14 +102,14 @@ router.post("/signup", (req, res, next) => {
         });
         User.create(user).then(result => {
 
-            // const token = jwt.sign({
-            //     username: result.username,
-            //     userId: result._id
-            // }, "geralt the wolf witcher", {expiresIn: "1hr"});
+            const token = jwt.sign({
+                username: result.username,
+                userId: result._id
+            }, "geralt the wolf witcher", {expiresIn: "1hr"});
 
             res.status(200).json({
-                // token: token,
-                // expiresIn: 3600,
+                token: token,
+                expiresIn: 3600,
                 username: result.username,
                 userId: result._id
             });
