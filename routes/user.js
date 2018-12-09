@@ -13,6 +13,11 @@ findAllUsers = (req, res) => {
   });
 }
 
+logout = (req, res) => {
+  req.session.destroy();
+  res.sendStatus(200);
+}
+
 createUserByAdmin = (req, res) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
       const user = new User({
@@ -156,6 +161,8 @@ router.post("/login", (req, res, next) => {
         });
     });
 });
+
+router.post("/logout", logout);
 
 router.post("/admin", createUserByAdmin);
 
