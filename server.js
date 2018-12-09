@@ -18,7 +18,7 @@ frontEndLocal = "http://localhost:4200";
 //Frontend heroku url
 frontEndHeroku = "https://dbms-recipe-app-frontend.herokuapp.com";
 
-mongoose.connect(localUrl)
+mongoose.connect(herokuUrl)
 .then(() => {
     console.log("Connected to database");
 })
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.setHeader("Access-Control-Allow-Origin", "https://dbms-recipe-app-frontend.herokuapp.com");
     res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept, Authorization"
