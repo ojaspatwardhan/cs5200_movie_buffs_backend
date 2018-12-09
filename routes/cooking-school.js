@@ -98,8 +98,8 @@ unenrollUserFromSchool= (req, res) => {
     var cookingSchool = req.body;
     console.log("In unenroll user of cooking school");
     console.log(cookingSchool);
-    CookingSchool.findByIdAndUpdate(cookingSchool.schoolId, { $inc: {noOfSeats: 1},
-    $pull: {enrolledUser: cookingSchool.userId}
+    CookingSchool.findByIdAndUpdate(cookingSchool.schoolId, {
+    $pull: {enrolledUser: cookingSchool.id},  $inc: {noOfSeats: 1}
     }, {
     new: true
     }, function(err) {
@@ -109,6 +109,7 @@ unenrollUserFromSchool= (req, res) => {
     }
     else {
         console.log("Unenrolled user in school");
+        res.send(cookingSchool);
     }
   });
 };
