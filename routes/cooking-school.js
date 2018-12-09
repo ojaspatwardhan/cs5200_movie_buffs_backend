@@ -42,7 +42,7 @@ findCookingSchoolById = (req,res) => {
 updateCookingSchool = (req, res) => {
     var cookingSchool = req.body;
     CookingSchool.findByIdAndUpdate(cookingSchool._id, {
-    $set: {noOfSeats: cookingSchool.noOfSeats, duration: cookingSchool.duration, enrolledUser: cookingSchool.enrolledUser, chefId: cookingSchool.chefId}
+    $set: {name: cookingSchool.name, image: cookingSchool.image,noOfSeats: cookingSchool.noOfSeats, duration: cookingSchool.duration, enrolledUser: cookingSchool.enrolledUser, chefId: cookingSchool.chefId}
     }, {
     new: true
     }, function(err) {
@@ -95,6 +95,8 @@ enrollUserInCookingSchool = (req, res) => {
 router.post("", (req, res, next) => {
     console.log(req.body);
         const cookingSchool = new CookingSchool({
+            name: req.body.name, 
+            image: req.body.image,
             noOfSeats: req.body.noOfSeats, 
             duration: req.body.duration, 
             chefId: req.body.chefId
