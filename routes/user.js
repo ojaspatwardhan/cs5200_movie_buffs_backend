@@ -99,6 +99,40 @@ findUserById = (req, res) => {
   });
 };
 
+enrollUserInSchool = (req,res) => {
+    const value = req.body;
+    console.log(value);
+    User.findByIdAndUpdate(value.id, { $push: {enrolledSchool: value.schoolId}}, 
+        {
+            new: true
+            }, function(err) {
+            if(err) {
+                console.log("In error");
+                res.status(500).json({error:err });
+            }
+            else {
+                console.log("Enrolled user in school");
+                res.send(value);
+        }});
+};
+
+unenrollUserFromSchool= (req,res) => {
+    const value = req.body;
+    console.log(value);
+    User.findByIdAndUpdate(value.id, { $pull: {enrolledSchool: value.schoolId}}, 
+        {
+            new: true
+            }, function(err) {
+            if(err) {
+                console.log("In error");
+                res.status(500).json({error:err });
+            }
+            else {
+                console.log("Unenrolled user from school");
+                res.send(value);
+        }});
+};
+
 router.post("/signup", (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {
         const user = new User({
@@ -175,6 +209,10 @@ router.get("/users", findAllUsers);
 router.get("/profile/:username", findUserByUsername);
 
 router.put("/:id", updateUser);
+
+router.put("/school/:id", enrollUserInSchool);
+
+router.put("/user/unenroll" , unenrollUserFromSchool);
 
 router.delete("/:id", deleteUser);
 

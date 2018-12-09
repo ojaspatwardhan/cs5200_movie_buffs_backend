@@ -79,7 +79,27 @@ enrollUserInCookingSchool = (req, res) => {
     console.log("In enroll user");
     console.log(cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool._id, { $inc: {noOfSeats: -1},
-    $push: {enrolledUser: cookingSchool.enrolledUser}
+    $set: {enrolledUser: cookingSchool.enrolledUser}
+    }, {
+    new: true
+    }, function(err) {
+    if(err) {
+        console.log("In error");
+        res.status(500).json({error:err });
+    }
+    else {
+        console.log("Enrolled user in school");
+        res.send(cookingSchool);
+    }
+  });
+};
+
+unenrollUserFromSchool= (req, res) => {
+    var cookingSchool = req.body;
+    console.log("In unenroll user of cooking school");
+    console.log(cookingSchool);
+    CookingSchool.findByIdAndUpdate(cookingSchool._id, { $inc: {noOfSeats: 1},
+    $set: {enrolledUser: cookingSchool.enrolledUser}
     }, {
     new: true
     }, function(err) {
@@ -121,6 +141,8 @@ router.get("/school/:id", findCookingSchoolById);
 router.put("/:id", updateCookingSchool);
 
 router.put("/user/:id", enrollUserInCookingSchool);
+
+router.put("/school/unenroll", unenrollUserFromSchool);
 
 router.delete("/:id", deleteCookingSchool);
 
