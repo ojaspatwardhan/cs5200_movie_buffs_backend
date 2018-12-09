@@ -79,7 +79,7 @@ enrollUserInCookingSchool = (req, res) => {
     console.log("In enroll user");
     console.log(cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool._id, { $inc: {noOfSeats: -1},
-    $set: {enrolledUser: cookingSchool.enrolledUser} 
+    $set: {enrolledUser: cookingSchool.enrolledUser}
     }, {
     new: true
     }, function(err) {
@@ -98,8 +98,13 @@ unenrollUserFromSchool= (req, res) => {
     var cookingSchool = req.body;
     console.log("In unenroll user of cooking school");
     console.log(cookingSchool);
+<<<<<<< HEAD
     CookingSchool.findByIdAndUpdate(cookingSchool.schoolId, {
     $pull: {enrolledUser: cookingSchool.id},  $inc: {noOfSeats: 1}
+=======
+    CookingSchool.findByIdAndUpdate(cookingSchool.schoolId, { $inc: {noOfSeats: 1},
+    $pull: {enrolledUser: cookingSchool.userId}
+>>>>>>> b32969552171bb175e35a2663fd2e7ab59f39937
     }, {
     new: true
     }, function(err) {
@@ -108,7 +113,11 @@ unenrollUserFromSchool= (req, res) => {
         res.status(500).json({error:err });
     }
     else {
+<<<<<<< HEAD
         console.log("Unenrolled user in school");
+=======
+        console.log("UnEnrolled user in school");
+>>>>>>> b32969552171bb175e35a2663fd2e7ab59f39937
         res.send(cookingSchool);
     }
   });
@@ -117,10 +126,10 @@ unenrollUserFromSchool= (req, res) => {
 router.post("", (req, res, next) => {
     console.log(req.body);
         const cookingSchool = new CookingSchool({
-            name: req.body.name, 
+            name: req.body.name,
             image: req.body.image,
-            noOfSeats: req.body.noOfSeats, 
-            duration: req.body.duration, 
+            noOfSeats: req.body.noOfSeats,
+            duration: req.body.duration,
             chefId: req.body.chefId
         });
         CookingSchool.create(cookingSchool).then(result => {
