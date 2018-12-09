@@ -29,19 +29,31 @@ mongoose.connect("mongodb://heroku_v4z5qmj9:eebijl3lttnpp562p91ee55p4k@ds129454.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://dbms-recipe-app-frontend.herokuapp.com");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-    );
-    next();
+//CORS
+app.use(function(req, res, next) {
+res.header("Access-Control-Allow-Origin", "https://dbms-recipe-app-frontend.herokuapp.com/home");
+res.header("Access-Control-Allow-Headers",
+"Origin, X-Requested-With, Content-Type, Accept");
+res.header("Access-Control-Allow-Methods",
+"GET, POST, PUT, DELETE, OPTIONS");
+res.header("Access-Control-Allow-Credentials", "true");
+next();
 });
+
+
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "https://dbms-recipe-app-frontend.herokuapp.com/home");
+//     res.setHeader(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//     );
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader(
+//       "Access-Control-Allow-Methods",
+//       "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+//     );
+//     next();
+// });
 
 app.use("/api/user", userRoutes);
 app.use("/api/recipe", recipeRoutes);
