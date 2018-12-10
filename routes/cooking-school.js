@@ -96,6 +96,7 @@ enrollUserInCookingSchool = (req, res) => {
 
 enrollUserThroughAdminInCookingSchool = (req,res) => {
     const value = req.body;
+    console.log("In enroll user of cooking school through admin");
     console.log(value);
     CookingSchool.findByIdAndUpdate(value.schoolId, { $inc: {noOfSeats: -1}, 
         $push: {enrolledUser: value.id}}, 
