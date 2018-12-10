@@ -102,7 +102,8 @@ findUserById = (req, res) => {
 enrollUserInSchool = (req,res) => {
     const value = req.body;
     console.log(value);
-    User.findByIdAndUpdate(value.id, { $push: {enrolledSchool: value.schoolId}}, 
+    console.log("in user enrolled school");
+    User.findByIdAndUpdate(value.id, { $push: {enrolledSchool: value.schoolId}},
         {
             new: true
             }, function(err) {
@@ -112,6 +113,7 @@ enrollUserInSchool = (req,res) => {
             }
             else {
                 console.log("Enrolled user in school");
+                console.log(value);
                 res.send(value);
         }});
 };
@@ -119,7 +121,7 @@ enrollUserInSchool = (req,res) => {
 unenrollUserFromSchool= (req,res) => {
     const value = req.body;
     console.log(value);
-    User.findByIdAndUpdate(value.id, { $pull: {enrolledSchool: value.schoolId}}, 
+    User.findByIdAndUpdate(value.id, { $pull: {enrolledSchool: value.schoolId}},
         {
             new: true
             }, function(err) {

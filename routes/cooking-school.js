@@ -98,8 +98,8 @@ enrollUserThroughAdminInCookingSchool = (req,res) => {
     const value = req.body;
     console.log("In enroll user of cooking school through admin");
     console.log(value);
-    CookingSchool.findByIdAndUpdate(value.schoolId, { $inc: {noOfSeats: -1}, 
-        $push: {enrolledUser: value.id}}, 
+    CookingSchool.findByIdAndUpdate(value.schoolId, { $inc: {noOfSeats: -1},
+        $push: {enrolledUser: value.id}},
         {
             new: true
             }, function(err) {
@@ -116,7 +116,7 @@ enrollUserThroughAdminInCookingSchool = (req,res) => {
 unenrollUserFromSchool= (req, res) => {
     var cookingSchool = req.body;
     console.log("In unenroll user of cooking school");
-    console.log(cookingSchool);
+    console.log(cookingSchool.id + " " + cookingSchool.schoolId);
     CookingSchool.findByIdAndUpdate(cookingSchool.schoolId, {
     $pull: {enrolledUser: cookingSchool.id},  $inc: {noOfSeats: 1}
     }, {
@@ -134,7 +134,7 @@ unenrollUserFromSchool= (req, res) => {
 };
 
 findSchoolByName = (req, res) => {
-  CookingSchool.find({name: req.params.name}).then((school) => {
+  CookingSchool.findOne({name: req.params.name}).then((school) => {
     res.send(school);
   });
 }
