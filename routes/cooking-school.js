@@ -94,6 +94,24 @@ enrollUserInCookingSchool = (req, res) => {
   });
 };
 
+enrollUserThroughAdminInCookingSchool = (req,res) => {
+    const value = req.body;
+    console.log(value);
+    CookingSchool.findByIdAndUpdate(value.schoolId, { $inc: {noOfSeats: -1}, 
+        $push: {enrolledUser: value.id}}, 
+        {
+            new: true
+            }, function(err) {
+            if(err) {
+                console.log("In error");
+                res.status(500).json({error:err });
+            }
+            else {
+                console.log("Enrolled user in school");
+                res.send(value);
+        }});
+}
+
 unenrollUserFromSchool= (req, res) => {
     var cookingSchool = req.body;
     console.log("In unenroll user of cooking school");
@@ -150,6 +168,8 @@ router.put("/:id", updateCookingSchool);
 router.put("/user/:id", enrollUserInCookingSchool);
 
 router.put("/school/unenroll", unenrollUserFromSchool);
+
+router.put("/school/admin/enroll", enrollUserThroughAdminInCookingSchool);
 
 router.delete("/:id", deleteCookingSchool);
 
