@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
 const recipeRoutes = require('./routes/recipe');
 const cookingSchoolRoutes = require('./routes/cooking-school');
+const advertisementRoutes = require('./routes/advertisement');
+
 
 const app = express();
 
@@ -55,6 +57,7 @@ app.use((req, res, next) => {
 app.use("/api/user", userRoutes);
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/cooking-school", cookingSchoolRoutes);
+app.use("/api/advertisement", advertisementRoutes);
 
 app.listen(process.env.PORT || 4000, () => console.log('Example app listening on port 4000!'))
 module.exports = app;
