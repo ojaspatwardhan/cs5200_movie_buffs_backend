@@ -43,7 +43,7 @@ router.post("", (req, res, next) => {
     console.log(req.body);
         const query = new ContactUs({
             email: req.body.email,
-            text: req.body.text
+            text: req.body.query
         });
         ContactUs.create(query).then(result => {
             res.send(result);

@@ -59,7 +59,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/recipe", recipeRoutes);
 app.use("/api/cooking-school", cookingSchoolRoutes);
 app.use("/api/advertisement", advertisementRoutes);
-app.use("/api/contact-us",contactUsRoutes);
+app.use("/api/contact-us", contactUsRoutes);
 
 app.listen(process.env.PORT || 4000, () => console.log('Example app listening on port 4000!'))
 module.exports = app;
