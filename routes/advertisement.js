@@ -1,13 +1,13 @@
 const express = require("express");
 
-const Advertisment = require("../models/advertisement/advertisement.model.server");
+const Advertisement = require("../models/advertisement/advertisement.model.server");
 
 const router = express.Router();
 
 findAdvertisementByName = (req,res) => {
     let advertisementName = req.params.name;
 
-    Advertisment.findOne({name: advertisementName}).then(advertisement => {
+    Advertisement.findOne({name: advertisementName}).then(advertisement => {
         if(!advertisement) {
             return res.status(401).json({
                 message: "Advertisement does not exist"
@@ -18,20 +18,20 @@ findAdvertisementByName = (req,res) => {
 };
 
 findAllAdvertisement = (req,res) => {
-    Advertisment.find().then((response) => {
+    Advertisement.find().then((response) => {
         res.send(response);
     });
 };
 
 findAdvertisementById = (req,res) => {
-    Advertisment.findById(req.params.id).then((response) => {
+    Advertisement.findById(req.params.id).then((response) => {
         res.send(response);
     });
 };
 
 updateAdvertisement = (req, res) => {
     var advertisement = req.body;
-    Advertisment.findByIdAndUpdate(cookingSchool._id, {
+    Advertisement.findByIdAndUpdate(cookingSchool._id, {
     $set: {name: advertisement.name, image: advertisement.image}
     }, {
     new: true
@@ -49,7 +49,7 @@ updateAdvertisement = (req, res) => {
 
 deleteAdvertisement = (req,res) => {
     console.log(req.params.id);
-    Advertisment.findByIdAndDelete(req.params.id, (err) => {
+    Advertisement.findByIdAndDelete(req.params.id, (err) => {
         if(!err) {
             console.log("Deleted" + " advertisement " + req.params.id);
             res.status(200).json({
@@ -66,11 +66,11 @@ deleteAdvertisement = (req,res) => {
 
 router.post("", (req, res, next) => {
     console.log(req.body);
-        const advertisement = new Advertisments({
+        const advertisement = new Advertisement({
             name: req.body.name,
             image: req.body.image
         });
-        Advertisment.create(advertisement).then(result => {
+        Advertisement.create(advertisement).then(result => {
             res.send(result);
         }).catch(err => {
             console.log("In error");
