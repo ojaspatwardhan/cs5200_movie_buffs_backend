@@ -82,7 +82,7 @@ router.get("/:name", findAdvertisementByName);
 
 router.get("/:id", findAdvertisementById);
 
-router.get("/", findAllAdvertisement)
+router.get("/", findAllAdvertisement);
 
 router.put("/:id", updateCookingSchool);
 
