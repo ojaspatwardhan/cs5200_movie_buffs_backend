@@ -7,7 +7,7 @@ const router = express.Router();
 findAdvertisementByName = (req,res) => {
     let advertisementName = req.params.name;
 
-    Advertisement.findOne({name: advertisementName}).then(advertisement => {
+    Advertisement.find({createdBy: advertisementName}).then(advertisement => {
         if(!advertisement) {
             return res.status(401).json({
                 message: "Advertisement does not exist"
@@ -31,7 +31,7 @@ findAdvertisementById = (req,res) => {
 
 updateAdvertisement = (req, res) => {
     var advertisement = req.body;
-    Advertisement.findByIdAndUpdate(cookingSchool._id, {
+    Advertisement.findByIdAndUpdate(advertisement._id, {
     $set: {name: advertisement.name, image: advertisement.image}
     }, {
     new: true
@@ -42,7 +42,7 @@ updateAdvertisement = (req, res) => {
     }
     else {
         console.log("update advertisement working");
-        res.send(cookingSchool);
+        res.send(advertisement);
     }
   });
 };
@@ -68,7 +68,8 @@ router.post("", (req, res, next) => {
     console.log(req.body);
         const advertisement = new Advertisement({
             name: req.body.name,
-            image: req.body.image
+            image: req.body.image,
+            createdBy: req.body.createdBy
         });
         Advertisement.create(advertisement).then(result => {
             res.send(result);
@@ -84,8 +85,8 @@ router.get("/:id", findAdvertisementById);
 
 router.get("/", findAllAdvertisement);
 
-router.put("/:id", updateCookingSchool);
+router.put("/:id", updateAdvertisement);
 
-router.delete("/:id", deleteCookingSchool);
+router.delete("/:id", deleteAdvertisement);
 
 module.exports = router;
