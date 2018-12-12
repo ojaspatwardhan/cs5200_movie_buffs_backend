@@ -41,6 +41,7 @@ findCookingSchoolById = (req,res) => {
 
 updateCookingSchool = (req, res) => {
     var cookingSchool = req.body;
+    console.log("In update cooking school " + cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool._id, {
     $set: {name: cookingSchool.name, image: cookingSchool.image,noOfSeats: cookingSchool.noOfSeats, duration: cookingSchool.duration, enrolledUser: cookingSchool.enrolledUser, chefId: cookingSchool.chefId}
     }, {
@@ -135,6 +136,7 @@ unenrollUserFromSchool= (req, res) => {
 
 addRecipeInCookingSchool = (req,res) => {
     var cookingSchool = req.body;
+    console.log("In add recipe cooking school " + cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool.id, {
         $push: {recipes: cookingSchool.recipeId}
     }, {
@@ -153,6 +155,7 @@ addRecipeInCookingSchool = (req,res) => {
 
 removeRecipeFromCookingSchool = (req,res) => {
     var cookingSchool = req.body;
+    console.log("In remove recipe cooking school " + cookingSchool);
     CookingSchool.findByIdAndUpdate(cookingSchool.id, {
         $pull: {recipes: cookingSchool.recipeId}
     }, {
@@ -216,7 +219,7 @@ router.put("/school/unenroll", unenrollUserFromSchool);
 
 router.put("/school/admin/enroll", enrollUserThroughAdminInCookingSchool);
 
-router.put("/recipe", addRecipeInCookingSchool);
+router.put("/recipe/add", addRecipeInCookingSchool);
 
 router.put("/recipe/remove", removeRecipeFromCookingSchool);
 
