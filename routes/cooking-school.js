@@ -133,11 +133,53 @@ unenrollUserFromSchool= (req, res) => {
   });
 };
 
+addRecipeInCookingSchool = (req,res) => {
+    var cookingSchool = req.body;
+    CookingSchool.findByIdAndUpdate(cookingSchool.id, {
+        $push: {recipes: cookingSchool.recipeId}
+    }, {
+        new: true
+    }, function(err) {
+        if(err) {
+            console.log("In error of add recipe in cooking school");
+            res.status(500).json({error:err });
+        }
+        else {
+            console.log("Added recipe to cooking school");
+            res.send(cookingSchool);
+        }
+    });
+};
+
+removeRecipeFromCookingSchool = (req,res) => {
+    var cookingSchool = req.body;
+    CookingSchool.findByIdAndUpdate(cookingSchool.id, {
+        $pull: {recipes: cookingSchool.recipeId}
+    }, {
+        new: true
+    }, function(err) {
+        if(err) {
+            console.log("In error of delete recipe in cooking school");
+            res.status(500).json({error:err });
+        }
+        else {
+            console.log("Deleted recipe to cooking school");
+            res.send(cookingSchool);
+        }
+    });
+};
+
 findSchoolByName = (req, res) => {
   CookingSchool.findOne({name: req.params.name}).then((school) => {
     res.send(school);
   });
-}
+};
+
+findRecipeInCookingSchool = (req,res) => {
+    CookingSchool.findById(req.params.id).then((school) => {
+        res.send(school);
+    });
+};
 
 router.post("", (req, res, next) => {
     console.log(req.body);
@@ -164,6 +206,8 @@ router.get("/:id", findCookingSchoolByChef);
 
 router.get("/school/:id", findCookingSchoolById);
 
+router.get("/recipe/:id", findRecipeInCookingSchool);
+
 router.put("/:id", updateCookingSchool);
 
 router.put("/user/:id", enrollUserInCookingSchool);
@@ -171,6 +215,10 @@ router.put("/user/:id", enrollUserInCookingSchool);
 router.put("/school/unenroll", unenrollUserFromSchool);
 
 router.put("/school/admin/enroll", enrollUserThroughAdminInCookingSchool);
+
+router.put("/recipe", addRecipeInCookingSchool);
+
+router.put("/recipe/remove", removeRecipeFromCookingSchool);
 
 router.delete("/:id", deleteCookingSchool);
 

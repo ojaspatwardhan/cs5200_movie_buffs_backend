@@ -22,6 +22,7 @@ findRecipes = (req,res) => {
 };
 
 findRecipesForUser = (req,res) => {
+    console.log("In find recipes of user: " + req.params.id);
     Recipe.find({creator: req.params.id}).then(recipes => {
         console.log(recipes);
         if(!recipes) {

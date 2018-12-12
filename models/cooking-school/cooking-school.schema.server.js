@@ -9,7 +9,10 @@ const cookingSchoolSchema = mongoose.Schema({
     enrolledUser: [{
         type: mongoose.Schema.Types.ObjectId, ref: "User"
     }],
-    chefId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+    chefId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    recipes: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Recipe"
+    }],
 }, {collection: "CookingSchool"});
 
 cookingSchoolSchema.plugin(uniqueValidator);
